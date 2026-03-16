@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metaductus — Het kennismodel van Ductus</title>
+  <meta name="description" content="Metaductus is het centrale kennismodel van het Ductus-platform. Eén gedeelde taal, concepten en structuren voor alle Ductus-producten." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { font-family: 'Plus Jakarta Sans', sans-serif; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+    }
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#475569',
+            secondary: '#64748B',
+            cta: '#2563EB',
+            surface: '#F8FAFC',
+            ink: '#1E293B',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-surface text-ink antialiased">
+
+  <!-- Navbar -->
+  <header class="fixed top-4 left-4 right-4 z-50" role="banner">
+    <nav class="max-w-6xl mx-auto bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl px-6 py-4 flex items-center justify-between shadow-sm"
+         aria-label="Hoofdnavigatie">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2 cursor-pointer" aria-label="Metaductus homepage">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect width="28" height="28" rx="8" fill="#2563EB"/>
+          <path d="M7 14h14M14 7v14M10 10l8 8M18 10l-8 8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="font-700 text-lg text-ink tracking-tight font-bold">metaductus</span>
+        <span class="text-xs font-medium text-secondary bg-gray-100 px-2 py-0.5 rounded-full">beta</span>
+      </a>
+
+      <!-- Desktop nav links -->
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-secondary" role="list">
+        <li><a href="#wat" class="hover:text-ink transition-colors duration-200 cursor-pointer">Wat is het?</a></li>
+        <li><a href="#functies" class="hover:text-ink transition-colors duration-200 cursor-pointer">Functies</a></li>
+        <li><a href="#hoe" class="hover:text-ink transition-colors duration-200 cursor-pointer">Hoe werkt het</a></li>
+        <li><a href="#ecosysteem" class="hover:text-ink transition-colors duration-200 cursor-pointer">Ecosysteem</a></li>
+      </ul>
+
+      <!-- CTA -->
+      <a href="#toegang"
+         class="hidden md:inline-flex items-center gap-2 bg-cta text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-blue-700 transition-colors duration-200 cursor-pointer"
+         data-testid="nav-cta">
+        Vroege toegang
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <!-- Mobile menu button -->
+      <button class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
+              aria-label="Menu openen"
+              onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+              data-testid="mobile-menu-toggle">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M3 5h14M3 10h14M3 15h14" stroke="#1E293B" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden mt-2 max-w-6xl mx-auto bg-white border border-gray-200 rounded-2xl px-6 py-4 shadow-lg">
+      <ul class="flex flex-col gap-4 text-sm font-medium text-secondary" role="list">
+        <li><a href="#wat" class="hover:text-ink transition-colors duration-200 cursor-pointer" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Wat is het?</a></li>
+        <li><a href="#functies" class="hover:text-ink transition-colors duration-200 cursor-pointer" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Functies</a></li>
+        <li><a href="#hoe" class="hover:text-ink transition-colors duration-200 cursor-pointer" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Hoe werkt het</a></li>
+        <li><a href="#ecosysteem" class="hover:text-ink transition-colors duration-200 cursor-pointer" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Ecosysteem</a></li>
+        <li>
+          <a href="#toegang"
+             class="inline-flex items-center gap-2 bg-cta text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-blue-700 transition-colors duration-200 cursor-pointer"
+             onclick="document.getElementById('mobile-menu').classList.add('hidden')"
+             data-testid="mobile-nav-cta">
+            Vroege toegang
+          </a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="pt-40 pb-24 px-4 sm:px-6 lg:px-8" aria-labelledby="hero-heading">
+      <div class="max-w-4xl mx-auto text-center fade-up">
+        <div class="inline-flex items-center gap-2 bg-blue-50 text-cta text-xs font-semibold px-4 py-2 rounded-full mb-8">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <circle cx="7" cy="7" r="6" stroke="#2563EB" stroke-width="1.5"/>
+            <path d="M7 4v3l2 2" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Onderdeel van het Ductus-platform
+        </div>
+
+        <h1 id="hero-heading" class="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-ink leading-tight tracking-tight mb-6">
+          Eén kennismodel.<br/>
+          <span class="text-cta">Alle Ductus-producten.</span>
+        </h1>
+
+        <p class="text-xl text-secondary leading-relaxed max-w-2xl mx-auto mb-10">
+          Metaductus is het gedeelde fundament van het Ductus-ecosysteem. Definities, concepten, relaties en regels — één keer vastgelegd, overal consistent toegepast.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#toegang"
+             class="inline-flex items-center gap-2 bg-cta text-white font-semibold px-8 py-4 rounded-xl text-base hover:bg-blue-700 transition-colors duration-200 cursor-pointer w-full sm:w-auto justify-center"
+             data-testid="hero-cta-primary">
+            Vraag vroege toegang aan
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path d="M3.75 9h10.5M9 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="#hoe"
+             class="inline-flex items-center gap-2 text-secondary font-semibold px-8 py-4 rounded-xl text-base border border-gray-200 hover:border-gray-300 hover:text-ink bg-white transition-colors duration-200 cursor-pointer w-full sm:w-auto justify-center"
+             data-testid="hero-cta-secondary">
+            Bekijk hoe het werkt
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero visual -->
+      <div class="max-w-5xl mx-auto mt-20 fade-up" style="transition-delay: 0.15s">
+        <div class="bg-white border border-gray-200 rounded-3xl p-8 shadow-xl">
+          <!-- Knowledge graph visualization -->
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+              <div class="w-3 h-3 rounded-full bg-red-400"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+              <div class="w-3 h-3 rounded-full bg-green-400"></div>
+            </div>
+            <span class="text-xs text-secondary font-mono">metaductus — kennisgraaf</span>
+          </div>
+
+          <div class="relative min-h-72 flex items-center justify-center overflow-hidden">
+            <!-- Central node -->
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-cta flex items-center justify-center shadow-lg z-10">
+              <span class="text-white text-xs font-bold text-center leading-tight">Meta<br/>ductus</span>
+            </div>
+
+            <!-- Connector lines (SVG) -->
+            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 600 300" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+              <line x1="300" y1="150" x2="100" y2="80" stroke="#E2E8F0" stroke-width="2"/>
+              <line x1="300" y1="150" x2="500" y2="80" stroke="#E2E8F0" stroke-width="2"/>
+              <line x1="300" y1="150" x2="100" y2="220" stroke="#E2E8F0" stroke-width="2"/>
+              <line x1="300" y1="150" x2="500" y2="220" stroke="#E2E8F0" stroke-width="2"/>
+              <line x1="300" y1="150" x2="180" y2="40" stroke="#E2E8F0" stroke-width="2"/>
+              <line x1="300" y1="150" x2="420" y2="270" stroke="#E2E8F0" stroke-width="2"/>
+            </svg>
+
+            <!-- Satellite nodes -->
+            <div class="absolute top-4 left-12 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm text-center">
+              <div class="w-2 h-2 rounded-full bg-purple-400 mx-auto mb-1"></div>
+              <span class="text-xs font-semibold text-ink">Conductus</span>
+            </div>
+            <div class="absolute top-4 right-12 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm text-center">
+              <div class="w-2 h-2 rounded-full bg-green-400 mx-auto mb-1"></div>
+              <span class="text-xs font-semibold text-ink">Retroductus</span>
+            </div>
+            <div class="absolute bottom-4 left-12 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm text-center">
+              <div class="w-2 h-2 rounded-full bg-orange-400 mx-auto mb-1"></div>
+              <span class="text-xs font-semibold text-ink">Deductus</span>
+            </div>
+            <div class="absolute bottom-4 right-12 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm text-center">
+              <div class="w-2 h-2 rounded-full bg-pink-400 mx-auto mb-1"></div>
+              <span class="text-xs font-semibold text-ink">iductus</span>
+            </div>
+            <div class="absolute top-0 left-1/3 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm text-center">
+              <div class="w-2 h-2 rounded-full bg-blue-400 mx-auto mb-1"></div>
+              <span class="text-xs font-semibold text-ink">Omniductus</span>
+            </div>
+            <div class="absolute bottom-0 right-1/3 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm text-center">
+              <div class="w-2 h-2 rounded-full bg-teal-400 mx-auto mb-1"></div>
+              <span class="text-xs font-semibold text-ink">+12 meer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problem statement -->
+    <section id="wat" class="py-24 px-4 sm:px-6 lg:px-8 bg-white" aria-labelledby="probleem-heading">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div class="fade-up">
+            <div class="text-xs font-semibold text-secondary uppercase tracking-widest mb-4">Het probleem</div>
+            <h2 id="probleem-heading" class="text-4xl font-bold text-ink mb-6 leading-tight">
+              Versnipperde kennis leidt tot inconsistente producten
+            </h2>
+            <p class="text-secondary text-lg leading-relaxed mb-6">
+              Naarmate het Ductus-ecosysteem groeit, groeien ook de inconsistenties. Elk product gebruikt zijn eigen terminologie, definities raken uit sync en nieuwe teams begrijpen de samenhang niet meer.
+            </p>
+            <ul class="space-y-4" role="list">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M7 7l6 6M13 7l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span class="text-secondary">Concepten hebben per product een andere betekenis</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M7 7l6 6M13 7l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span class="text-secondary">Integraties zijn moeilijk door ontbrekende gedeelde taal</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-red-400 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M7 7l6 6M13 7l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span class="text-secondary">Documentatie veroudert en raakt versnipperd</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="fade-up" style="transition-delay: 0.1s">
+            <div class="text-xs font-semibold text-secondary uppercase tracking-widest mb-4">De oplossing</div>
+            <h3 class="text-3xl font-bold text-ink mb-6 leading-tight">
+              Één centraal kennismodel als fundament
+            </h3>
+            <p class="text-secondary text-lg leading-relaxed mb-6">
+              Metaductus definieert de gedeelde taal van het Ductus-platform. Concepten, relaties, regels en taxonomieën — één keer vastgelegd, altijd consistent.
+            </p>
+            <ul class="space-y-4" role="list">
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M6.5 10.5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-secondary">Canonical definities die alle producten gebruiken</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M6.5 10.5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-secondary">Versioned kennisgraaf met traceerbare wijzigingen</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-green-500 mt-0.5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M6.5 10.5l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="text-secondary">API-toegang voor elk Ductus-product</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="functies" class="py-24 px-4 sm:px-6 lg:px-8 bg-surface" aria-labelledby="functies-heading">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 fade-up">
+          <div class="text-xs font-semibold text-secondary uppercase tracking-widest mb-4">Functies</div>
+          <h2 id="functies-heading" class="text-4xl font-bold text-ink mb-4">Alles voor een consistent kennislandschap</h2>
+          <p class="text-secondary text-lg max-w-2xl mx-auto">Van ontologiebeheer tot live API — Metaductus geeft elke laag van het Ductus-platform een solide fundament.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Feature 1 -->
+          <div class="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow duration-200 cursor-default fade-up" data-testid="feature-card-ontologie">
+            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-5">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-ink mb-2">Ontologiebeheer</h3>
+            <p class="text-secondary text-sm leading-relaxed">Definieer entiteiten, attributen en relaties in een gestructureerde ontologie. Hiërarchisch, versioned en auditeerbaar.</p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow duration-200 cursor-default fade-up" style="transition-delay: 0.05s" data-testid="feature-card-taxonomie">
+            <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mb-5">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M3 6h18M3 12h12M3 18h8" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="19" cy="12" r="2" stroke="#7C3AED" stroke-width="1.5"/>
+                <circle cx="15" cy="18" r="2" stroke="#7C3AED" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-ink mb-2">Taxonomieën</h3>
+            <p class="text-secondary text-sm leading-relaxed">Organiseer begrippen in meerdere dimensies. Taxonomieën zijn herbruikbaar en koppelbaar aan elk Ductus-product.</p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow duration-200 cursor-default fade-up" style="transition-delay: 0.1s" data-testid="feature-card-api">
+            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-5">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M8 6l-4 6 4 6M16 6l4 6-4 6M12 4l-2 16" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-ink mb-2">REST & GraphQL API</h3>
+            <p class="text-secondary text-sm leading-relaxed">Elk Ductus-product haalt definities op via een versionede API. Consistentie gegarandeerd, ook bij modelupdates.</p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow duration-200 cursor-default fade-up" style="transition-delay: 0.05s" data-testid="feature-card-versioning">
+            <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mb-5">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="#EA580C" stroke-width="1.5"/>
+                <path d="M12 7v5l3 3" stroke="#EA580C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-ink mb-2">Versioning & changelog</h3>
+            <p class="text-secondary text-sm leading-relaxed">Elke wijziging aan het kennismodel is traceerbaar. Producten kiezen zelf wanneer ze migreren naar een nieuwe versie.</p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div class="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow duration-200 cursor-default fade-up" style="transition-delay: 0.1s" data-testid="feature-card-validatie">
+            <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mb-5">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 12l2 2 4-4" stroke="#0D9488" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 3a9 9 0 100 18A9 9 0 0012 3z" stroke="#0D9488" stroke-width="1.5"/>
+                <path d="M12 3v2M21 12h-2M12 21v-2M3 12h2" stroke="#0D9488" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-ink mb-2">Modelvalidatie</h3>
+            <p class="text-secondary text-sm leading-relaxed">Automatische consistentiecheck op het kennismodel. Conflicten en circulaire afhankelijkheden worden vroegtijdig gesignaleerd.</p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div class="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow duration-200 cursor-default fade-up" style="transition-delay: 0.15s" data-testid="feature-card-visualisatie">
+            <div class="w-12 h-12 bg-pink-50 rounded-xl flex items-center justify-center mb-5">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="3" stroke="#DB2777" stroke-width="1.5"/>
+                <circle cx="4" cy="6" r="2" stroke="#DB2777" stroke-width="1.5"/>
+                <circle cx="20" cy="6" r="2" stroke="#DB2777" stroke-width="1.5"/>
+                <circle cx="4" cy="18" r="2" stroke="#DB2777" stroke-width="1.5"/>
+                <circle cx="20" cy="18" r="2" stroke="#DB2777" stroke-width="1.5"/>
+                <path d="M6 7l4 4M18 7l-4 4M6 17l4-4M18 17l-4-4" stroke="#DB2777" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-ink mb-2">Kennisgraaf visualisatie</h3>
+            <p class="text-secondary text-sm leading-relaxed">Interactieve weergave van het volledige kennismodel. Inzoomen op relaties, uitklappen van concepten, exporteren als SVG.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="hoe" class="py-24 px-4 sm:px-6 lg:px-8 bg-white" aria-labelledby="hoe-heading">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 fade-up">
+          <div class="text-xs font-semibold text-secondary uppercase tracking-widest mb-4">Werkwijze</div>
+          <h2 id="hoe-heading" class="text-4xl font-bold text-ink mb-4">In drie stappen naar een gedeeld kennismodel</h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center fade-up" data-testid="stap-1">
+            <div class="w-16 h-16 bg-cta rounded-2xl flex items-center justify-center mx-auto mb-6 text-white text-2xl font-bold">1</div>
+            <h3 class="text-xl font-semibold text-ink mb-3">Definieer je ontologie</h3>
+            <p class="text-secondary leading-relaxed">Voeg concepten, attributen en relaties toe via de visuele editor of importeer bestaande schema's via JSON-LD of OWL.</p>
+          </div>
+          <div class="text-center fade-up" style="transition-delay: 0.1s" data-testid="stap-2">
+            <div class="w-16 h-16 bg-cta rounded-2xl flex items-center justify-center mx-auto mb-6 text-white text-2xl font-bold">2</div>
+            <h3 class="text-xl font-semibold text-ink mb-3">Koppel je producten</h3>
+            <p class="text-secondary leading-relaxed">Elk Ductus-product registreert zich als consumer. Via de API halen ze definities op met de gewenste versie.</p>
+          </div>
+          <div class="text-center fade-up" style="transition-delay: 0.2s" data-testid="stap-3">
+            <div class="w-16 h-16 bg-cta rounded-2xl flex items-center justify-center mx-auto mb-6 text-white text-2xl font-bold">3</div>
+            <h3 class="text-xl font-semibold text-ink mb-3">Beheer en evolueer</h3>
+            <p class="text-secondary leading-relaxed">Pas het model aan, publiceer een nieuwe versie en laat consumers zelf kiezen wanneer ze migreren. Geen big bang, geen breaking changes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ecosystem -->
+    <section id="ecosysteem" class="py-24 px-4 sm:px-6 lg:px-8 bg-surface" aria-labelledby="ecosysteem-heading">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 fade-up">
+          <div class="text-xs font-semibold text-secondary uppercase tracking-widest mb-4">Ductus-ecosysteem</div>
+          <h2 id="ecosysteem-heading" class="text-4xl font-bold text-ink mb-4">Gebouwd als fundament voor elk Ductus-product</h2>
+          <p class="text-secondary text-lg max-w-2xl mx-auto">Metaductus is niet zomaar een product — het is de ruggengraat van het hele platform.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 fade-up">
+          <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center hover:shadow-md transition-shadow duration-200 cursor-default" data-testid="ecosystem-conductus">
+            <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center mx-auto mb-3">
+              <div class="w-4 h-4 rounded-full bg-purple-500"></div>
+            </div>
+            <div class="font-semibold text-ink text-sm mb-1">Conductus</div>
+            <div class="text-xs text-secondary">CMMN platform</div>
+          </div>
+          <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center hover:shadow-md transition-shadow duration-200 cursor-default" data-testid="ecosystem-retroductus">
+            <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center mx-auto mb-3">
+              <div class="w-4 h-4 rounded-full bg-green-500"></div>
+            </div>
+            <div class="font-semibold text-ink text-sm mb-1">Retroductus</div>
+            <div class="text-xs text-secondary">Process mining</div>
+          </div>
+          <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center hover:shadow-md transition-shadow duration-200 cursor-default" data-testid="ecosystem-deductus">
+            <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center mx-auto mb-3">
+              <div class="w-4 h-4 rounded-full bg-orange-500"></div>
+            </div>
+            <div class="font-semibold text-ink text-sm mb-1">Deductus</div>
+            <div class="text-xs text-secondary">Analytics</div>
+          </div>
+          <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center hover:shadow-md transition-shadow duration-200 cursor-default" data-testid="ecosystem-iductus">
+            <div class="w-10 h-10 rounded-xl bg-pink-100 flex items-center justify-center mx-auto mb-3">
+              <div class="w-4 h-4 rounded-full bg-pink-500"></div>
+            </div>
+            <div class="font-semibold text-ink text-sm mb-1">iductus</div>
+            <div class="text-xs text-secondary">Ideatieplat.</div>
+          </div>
+          <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center hover:shadow-md transition-shadow duration-200 cursor-default" data-testid="ecosystem-omniductus">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center mx-auto mb-3">
+              <div class="w-4 h-4 rounded-full bg-blue-500"></div>
+            </div>
+            <div class="font-semibold text-ink text-sm mb-1">Omniductus</div>
+            <div class="text-xs text-secondary">Auth platform</div>
+          </div>
+          <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center hover:shadow-md transition-shadow duration-200 cursor-default" data-testid="ecosystem-eductus">
+            <div class="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center mx-auto mb-3">
+              <div class="w-4 h-4 rounded-full bg-teal-500"></div>
+            </div>
+            <div class="font-semibold text-ink text-sm mb-1">Eductus</div>
+            <div class="text-xs text-secondary">Learning</div>
+          </div>
+          <div class="bg-white border border-gray-200 rounded-2xl p-5 text-center hover:shadow-md transition-shadow duration-200 cursor-default" data-testid="ecosystem-veriductus">
+            <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center mx-auto mb-3">
+              <div class="w-4 h-4 rounded-full bg-indigo-500"></div>
+            </div>
+            <div class="font-semibold text-ink text-sm mb-1">Veriductus</div>
+            <div class="text-xs text-secondary">Verificatie</div>
+          </div>
+          <div class="bg-cta/5 border border-cta/20 rounded-2xl p-5 text-center" data-testid="ecosystem-meer">
+            <div class="w-10 h-10 rounded-xl bg-cta/10 flex items-center justify-center mx-auto mb-3">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M8 3v10M3 8h10" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="font-semibold text-cta text-sm mb-1">+14 meer</div>
+            <div class="text-xs text-secondary">in ontwikkeling</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA / Waitlist -->
+    <section id="toegang" class="py-24 px-4 sm:px-6 lg:px-8 bg-ink" aria-labelledby="toegang-heading">
+      <div class="max-w-2xl mx-auto text-center fade-up">
+        <div class="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">Vroege toegang</div>
+        <h2 id="toegang-heading" class="text-4xl font-bold text-white mb-4">Word onderdeel van het kennismodel</h2>
+        <p class="text-slate-400 text-lg mb-10">
+          Metaductus is in actieve ontwikkeling. Meld je aan voor vroege toegang en help mee het fundament te bouwen.
+        </p>
+
+        <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="handleSubmit(event)" novalidate aria-label="Aanmeldformulier vroege toegang">
+          <label for="email-input" class="sr-only">E-mailadres</label>
+          <input
+            id="email-input"
+            type="email"
+            name="email"
+            placeholder="jouw@email.nl"
+            required
+            autocomplete="email"
+            class="flex-1 bg-white/10 border border-white/20 text-white placeholder-slate-500 px-5 py-3.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+            data-testid="email-input"
+            aria-required="true"
+          />
+          <button
+            type="submit"
+            id="submit-btn"
+            class="bg-cta text-white font-semibold px-6 py-3.5 rounded-xl text-sm hover:bg-blue-600 transition-colors duration-200 cursor-pointer whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+            data-testid="submit-button"
+          >
+            Aanmelden
+          </button>
+        </form>
+
+        <div id="form-success" class="hidden mt-6 text-green-400 text-sm font-medium" role="status" aria-live="polite">
+          <svg class="inline w-4 h-4 mr-1.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Gelukt! Je staat op de lijst. We nemen contact op.
+        </div>
+        <div id="form-error" class="hidden mt-6 text-red-400 text-sm" role="alert" aria-live="assertive"></div>
+
+        <p class="text-slate-500 text-xs mt-6">Geen spam. Geen verkoopgesprek. Alleen updates over Metaductus.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-ink border-t border-white/10 py-12 px-4 sm:px-6 lg:px-8" role="contentinfo">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-2">
+        <svg width="24" height="24" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect width="28" height="28" rx="8" fill="#2563EB"/>
+          <path d="M7 14h14M14 7v14M10 10l8 8M18 10l-8 8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="text-white font-bold text-base">metaductus</span>
+        <span class="text-slate-500 text-sm">— onderdeel van Ductus</span>
+      </div>
+      <nav class="flex items-center gap-6 text-sm text-slate-400" aria-label="Footer navigatie">
+        <a href="#wat" class="hover:text-white transition-colors duration-200 cursor-pointer">Wat is het?</a>
+        <a href="#functies" class="hover:text-white transition-colors duration-200 cursor-pointer">Functies</a>
+        <a href="#toegang" class="hover:text-white transition-colors duration-200 cursor-pointer">Aanmelden</a>
+      </nav>
+      <p class="text-slate-500 text-sm">&copy; 2026 Ductus · metaductus.nl</p>
+    </div>
+  </footer>
+
+  <script>
+    // Fade-up animation on scroll
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      }),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Form submission
+    function handleSubmit(event) {
+      event.preventDefault();
+      const form = event.target;
+      const emailInput = document.getElementById('email-input');
+      const submitBtn = document.getElementById('submit-btn');
+      const successMsg = document.getElementById('form-success');
+      const errorMsg = document.getElementById('form-error');
+
+      const email = emailInput.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      errorMsg.classList.add('hidden');
+      errorMsg.textContent = '';
+
+      if (!emailRegex.test(email)) {
+        errorMsg.textContent = 'Voer een geldig e-mailadres in.';
+        errorMsg.classList.remove('hidden');
+        emailInput.focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Bezig...';
+
+      // TODO: vervang door echte API-call (bijv. Supabase of Resend)
+      setTimeout(() => {
+        form.classList.add('hidden');
+        successMsg.classList.remove('hidden');
+      }, 800);
+    }
+  </script>
+
+</body>
+</html>
